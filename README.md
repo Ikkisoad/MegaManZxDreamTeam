@@ -1,0 +1,2 @@
+# MegaManZxDreamTeam
+Autosplitter
