@@ -14,7 +14,7 @@ Setup: Edit Layout: + > Control > Scriptable Auto Splitter, browse for the scrip
 Have fun and accurate timing c:
 
 Created by
-	Flameberger
+	Flameberger and
 	Ikkisoad
 
 

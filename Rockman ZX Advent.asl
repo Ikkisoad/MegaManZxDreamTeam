@@ -28,7 +28,7 @@ state("MZZXLC")
  
 start
 {
-	if(current.IGT != old.IGT && current.room != 72){
+	if(current.IGT != old.IGT && (current.room == 5 || current.room == 1)){
 		return true ;
 	}
 	
