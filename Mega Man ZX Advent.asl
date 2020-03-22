@@ -19,112 +19,136 @@ state("DeSmuME_0.9.11_x86")
 	byte bossHP : "DeSmuME_0.9.11_x86.exe", 0x300B25A;
 	byte room : "DeSmuME_0.9.11_x86.exe", 0x2FAC918;
 }
+
+state("MZZXLC"){
+    uint IGT : "MZZXLC.exe", 0x2784CB8;
+	byte room : "MZZXLC.exe", 0x278526C;
+}
+
+startup{
+	refreshRate = 60;
+	settings.Add("everyRoom", true, "Every Room");
+	settings.SetToolTip("everyRoom", "Split when the game changes room ID. This will override every other option.");
+	settings.Add("Intro", true, "Intro");
+	settings.SetToolTip("Intro", "Split after intro stage.");
+	settings.Add("Buckfire", true, "Buckfire");
+	settings.SetToolTip("Buckfire", "Split after Buckfire stage.");
+	settings.Add("RoseForce", true, "Rosepark and Chronoforce");
+	settings.SetToolTip("RoseForce", "Split after Rosepark and Chronoforce stages, 2 splits.");
+	settings.Add("Atlas", true, "Atlas");
+	settings.SetToolTip("Atlas", "Split when you leave the Raiders Base.");
+	settings.Add("Aelous", true, "Aelous");
+	settings.SetToolTip("Aelous", "Split when you leave Aelous stage.");
+	settings.Add("Thetis", true, "Thetis");
+	settings.SetToolTip("Thetis", "Split when you leave Thetis stage.");
+	settings.Add("Vulturon", true, "Vulturon");
+	settings.SetToolTip("Vulturon", "Split when you leave Vulturon stage.");
+	settings.Add("Queenbee", true, "Queenbee");
+	settings.SetToolTip("Queenbee", "Split when you leave Queenbee stage.");
+	settings.Add("BAV", true, "Before Aile/Vent");
+	settings.SetToolTip("BAV", "Split before Aile/Vent.");
+	settings.Add("AAV", true, "After Aile/Vent");
+	settings.SetToolTip("AAV", "Split after Aile/Vent.");
+	settings.Add("AUH", true, "Argoyle/Ugoyle and Hedgeshock splits");
+	settings.SetToolTip("AUH", "Split after Argoyle/Ugoyle and Hedgeshock stages, 2 splits.");
+	settings.Add("Bifrost", true, "Bifrost");
+	settings.SetToolTip("Bifrost", "Split when you leave Bifrost stage.");
+	settings.Add("PandP", true, "Pandora and Prometheus");
+	settings.SetToolTip("PandP", "Hm");
+}
  
-start
-{
-	if(current.IGT != old.IGT && current.room != 72){
+start{
+	if(current.IGT != old.IGT && (current.room == 5 || current.room == 1)){
 		return true ;
 	}
-	
-	
 }
  
-split
-{
-	if(old.room == 2 && current.room == 10){
-		//intro grey
-		return true;
-	
-	}
-	if(old.room == 5 && current.room == 10){
-		//intro Ashe
-		return true;
-	
-	}
-	if(old.room == 7 && current.room == 6){
-		//Buckfire
-		return true;
-	
-	}
-	if(old.room == 18 || old.room == 17){
-		//Rosepark > Chronoforce
-		if(current.room == 14 || current.room == 22){
+split{
+	if(!settings["everyRoom"]){
+		if(old.room == 2 && current.room == 10 && settings["Intro"]){
+			//intro grey
 			return true;
 		}
-	
-	}
-	if(old.room == 24 && current.room == 6){
-		// Atlas
-		return true;
-	
-	}
-	if(old.room == 28 || old.room == 41 || old.room == 37 || old.room == 45 || old.room == 33){
-		//Sianarq
-		if(current.room == 38 && old.room != 41){
-			// Aelous
+		if(old.room == 5 && current.room == 10 && settings["Intro"]){
+			//intro Ashe
 			return true;
 		}
-		if(current.room == 34 && old.room != 37){
-			// Thetis
+		if(old.room == 7 && current.room == 6 && settings["Buckfire"]){
+			//Buckfire
 			return true;
 		}
-		if(current.room == 42 && old.room != 45){
-			// Vulturon
+		if(old.room == 18 || old.room == 17 && settings["RoseForce"]){
+			//Rosepark > Chronoforce
+			if(current.room == 14 || current.room == 22){
+				return true;
+			}
+		}
+		if(old.room == 24 && current.room == 6 && settings["Atlas"]){
+			// Atlas
 			return true;
 		}
-		if(current.room == 30 && old.room != 33){
-			// Queenbee
+		if(old.room == 28 || old.room == 41 || old.room == 37 || old.room == 45 || old.room == 33){
+			//Sianarq
+			if(current.room == 38 && old.room != 41 && settings["Aelous"]){
+				// Aelous
+				return true;
+			}
+			if(current.room == 34 && old.room != 37 && settings["Thetis"]){
+				// Thetis
+				return true;
+			}
+			if(current.room == 42 && old.room != 45 && settings["Vulturon"]){
+				// Vulturon
+				return true;
+			}
+			if(current.room == 30 && old.room != 33 && settings["Queenbee"]){
+				// Queenbee
+				return true;
+			}
+		}
+		if(old.room == 41 || old.room == 37 || old.room == 45 || old.room == 33){
+			if(current.room == 10 && settings["BAV"]){
+				//Before Aile/Vent split
+				return true;
+			}
+		}
+		if(old.room == 49 && current.room == 10 && settings["AAV"]){
+			// After Aile/Vent
 			return true;
 		}
-	
-	}
-	if(old.room == 41 || old.room == 37 || old.room == 45 || old.room == 33){
-		if(current.room == 10){
-			//Before Aile/Vent split
+		if(old.room == 53 || old.room == 4){
+			if(current.room == 50 && settings["AUH"]){
+				// Argoyle Ugoyle / Hedgeshock
+				return true;		
+			}
+			if(current.room == 6 && settings["AUH"]){
+				// Argoyle Ugoyle / Hedgeshock
+				return true;		
+			}
+		}
+		if(old.room == 56 && current.room == 6 && settings["Bifrost"]){
+			// Bifrost
+			return true;
+		}
+		if(old.room == 56 && current.room == 58 && settings["PandP"]){
+			// Prometheus and Pandora
+			return true;
+		}
+		if(old.room == 61 && current.room == 10 && settings["PandP"]){
+			// Prometheus and Pandora
+			return true;
+		}
+		if(old.room == 63 && current.room == 64 && settings["PandP"]){
+			// Prometheus and Pandora
 			return true;
 		}
 	}
-	if(old.room == 49 && current.room == 10){
-		// After Aile/Vent
+	if(old.room != current.room && settings["everyRoom"]){
 		return true;
-	
 	}
-	if(old.room == 53 || old.room == 4){
-		if(current.room == 50){
-			// Argoyle Ugoyle / Hedgeshock
-			return true;		
-		}
-		if(current.room == 6){
-			// Argoyle Ugoyle / Hedgeshock
-			return true;		
-		}
-	}
-	if(old.room == 56 && current.room == 6){
-		// Bifrost
-		return true;
-	
-	}
-	if(old.room == 56 && current.room == 58){
-		// Prometheus and Pandora
-		return true;
-	
-	}
-	if(old.room == 61 && current.room == 10){
-		// Prometheus and Pandora
-		return true;
-	
-	}
-	if(old.room == 63 && current.room == 64){
-		// Prometheus and Pandora
-		return true;
-	
-	}
-	
-	
 }
  
-gameTime
-{
+gameTime{
     return TimeSpan.FromSeconds(current.IGT / 60.0); 
 }
 
