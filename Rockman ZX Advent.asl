@@ -27,8 +27,6 @@ start{
 	if(current.IGT != old.IGT && (current.room == 5 || current.room == 1)){
 		return true ;
 	}
-	
-	
 }
  
 split{
