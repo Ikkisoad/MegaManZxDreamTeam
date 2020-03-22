@@ -72,7 +72,6 @@ split{
 			// Queenbee
 			return true;
 		}
-	
 	}
 	if(old.room == 41 || old.room == 37 || old.room == 45 || old.room == 33){
 		if(current.room == 10){
