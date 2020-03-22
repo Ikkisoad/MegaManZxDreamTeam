@@ -1,4 +1,3 @@
-//RAM search addresses: Rooms-020F9130 BossHP-0214FDE4-02150CAA IGT-0215FEA8
 //Room values used here: 16-Highway path 18-Room IV of boss rush 19-Final Hallway 
 //66-Area-O room where there is a transerver located
 //70-Transerver
@@ -11,45 +10,51 @@
 //Setup: Edit Layout: + > Control > Scriptable Auto Splitter, browse for the script file
 //Have fun and accurate timing c:
 
-state("DeSmuME_0.9.11_x64")
-{
+state("DeSmuME_0.9.11_x64"){
     uint IGT : "DeSmuME_0.9.11_x64.exe", 0x55710F8;
-	//byte bossHP : "DeSmuME_0.9.11_x64.exe", 0x5561EFA;
 	byte room : "DeSmuME_0.9.11_x64.exe", 0x5560234;
 }
 
-state("DeSmuME_0.9.11_x86")
-{
+state("DeSmuME_0.9.11_x86"){
     uint IGT : "DeSmuME_0.9.11_x86.exe", 0x3000D60;
-	//byte bossHP : "DeSmuME_0.9.11_x86.exe", 0x2FF1B62;
 	byte room : "DeSmuME_0.9.11_x86.exe", 0x2FF071C;
 }
 
-state("MZZXLC")
-{
+state("MZZXLC"){
     uint IGT : "MZZXLC.exe", 0x28B4360;
     byte room : "MZZXLC.exe", 0x293349C;
 }
+
+startup{
+	refreshRate = 60;
+	settings.Add("everyRoom", true, "Every Room");
+	settings.SetToolTip("everyRoom", "Splits when the game changes room ID. This will override every other option.");
+	settings.Add("everyTranserver", false, "Every Transerver");
+	settings.SetToolTip("everyTranserver", "Split when you enter a transerver room.");
+	settings.Add("BossRush", false, "Boss Rush");
+	settings.SetToolTip("BossRush", "Splits when you exit Purprill and Protectos boss rush room.");
+}
  
-start
-{
+start{
 	if(current.IGT != old.IGT && current.room != 72){
 		return true;
 	}
 }
  
-split
-{
-	if(old.room != 66 && old.room != 16 && old.room != 70 && current.room == 70){
+split{
+	if(old.room != 66 && old.room != 16 && old.room != 70 && current.room == 70 && !settings["everyRoom"] && settings["everyTranserver"]){
 		return true;
 	}
-	if(old.room == 18 && current.room == 19){
+	if(old.room == 18 && current.room == 19 && !settings["everyRoom"] && settings["BossRush"]){
+		return true;
+	}
+	
+	if(old.room != current.room && settings["everyRoom"]){
 		return true;
 	}
 }
  
-gameTime
-{
+gameTime{
     return TimeSpan.FromSeconds(current.IGT / 60.0); 
 }
 
