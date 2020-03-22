@@ -19,6 +19,12 @@ state("DeSmuME_0.9.11_x86")
 	byte bossHP : "DeSmuME_0.9.11_x86.exe", 0x3009FCE;
 	byte room : "DeSmuME_0.9.11_x86.exe", 0x3018B34;
 }
+
+state("MZZXLC")
+{
+    uint IGT : "MZZXLC.exe", 0x2784CB8;
+	byte room : "MZZXLC.exe", 0x278526C;
+}
  
 start
 {
