@@ -36,24 +36,16 @@ start
 	if(current.IGT != old.IGT && current.room != 72){
 		return true;
 	}
-	
-	
 }
  
 split
 {
 	if(old.room != 66 && old.room != 16 && old.room != 70 && current.room == 70){
-	
 		return true;
-	
 	}
 	if(old.room == 18 && current.room == 19){
-	
 		return true;
-	
 	}
-	
-	
 }
  
 gameTime
