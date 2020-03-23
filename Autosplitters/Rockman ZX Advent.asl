@@ -26,7 +26,7 @@ state("MZZXLC"){
 startup{
 	refreshRate = 60;
 	settings.Add("everyRoom", false, "Every Room");
-	settings.SetToolTip("everyRoom", "Split when the game changes room ID. This will override every other option.");
+	settings.SetToolTip("everyRoom", "Split when the game changes room ID. This will override every other option. 80+ Splits on a Normal difficulty run.");
 	settings.Add("Intro", true, "Intro");
 	settings.SetToolTip("Intro", "Split after intro stage.");
 	settings.Add("Buckfire", true, "Buckfire");
@@ -47,20 +47,24 @@ startup{
 	settings.SetToolTip("Vulturon", "Split when you leave Vulturon stage.");
 	settings.Add("Queenbee", true, "Queenbee");
 	settings.SetToolTip("Queenbee", "Split when you leave Queenbee stage.");
-	settings.Add("BAV", true, "Before Aile/Vent");
-	settings.SetToolTip("BAV", "Split before Aile/Vent.");
-	settings.Add("AAV", true, "After Aile/Vent");
-	settings.SetToolTip("AAV", "Split after Aile/Vent.");
-	settings.Add("AUH", true, "Argoyle/Ugoyle and Hedgeshock splits");
-	settings.SetToolTip("AUH", "Split after Argoyle/Ugoyle and Hedgeshock stages, 2 splits.");
+	settings.Add("AileVent", true, "Aile/Vent");
+	settings.SetToolTip("AileVent", "Split after Spidrill Neo.");
+	settings.Add("ArgoyleUgoyle", true, "Argoyle/Ugoyle");
+	settings.SetToolTip("ArgoyleUgoyle", "Split after leaving Waterfall Ruins transerver Room.");
+	settings.Add("Hedgeshock", true, "Hedgeshock");
+	settings.SetToolTip("Hedgeshock", "Split after leaving Mysterious Lab transerver Room.");
 	settings.Add("Bifrost", true, "Bifrost");
 	settings.SetToolTip("Bifrost", "Split when you leave Bifrost stage.");
 	settings.Add("PandP", true, "Pandora and Prometheus");
-	settings.SetToolTip("PandP", "Hm");
+	settings.SetToolTip("PandP", "Split when you defeat Pandora and Prometheus.");
+	settings.Add("BossRush", true, "Boss Rush");
+	settings.SetToolTip("BossRush", "Split when you leave the second boss rush room.");
+	settings.Add("Albert", true, "Albert");
+	settings.SetToolTip("Albert", "Split when you defeat Albert.");
 }
  
 start{
-	if(current.IGT != old.IGT && (current.room == 5 || current.room == 1)){ //could try starting only when IGT == 0
+	if(current.IGT != old.IGT &&(current.room == 5 || current.room == 1)){ //could try starting only when IGT == 0
 		return true ;
 	}
 }
@@ -111,40 +115,32 @@ split{
 			//Queenbee
 			return true;
 		}
-		if(old.room == 41 || old.room == 37 || old.room == 45 || old.room == 33){
-			if(current.room == 10 && settings["BAV"]){
-				//Before Aile/Vent split
-				return true;
-			}
-		}
-		if(old.room == 49 && current.room == 10 && settings["AAV"]){
-			// After Aile/Vent
+		if(old.room == 49 && current.room != 49 && settings["AileVent"]){
+			//Aile/Vent
 			return true;
 		}
-		if(old.room == 53 || old.room == 4){
-			if(current.room == 50 && settings["AUH"]){
-				// Argoyle Ugoyle / Hedgeshock
-				return true;		
-			}
-			if(current.room == 6 && settings["AUH"]){
-				// Argoyle Ugoyle / Hedgeshock
-				return true;		
-			}
+		if(old.room == 53 && current.room != 53 && settings["ArgoyleUgoyle"]){
+			//Argoyle/Ugoyle
+			return true;
 		}
-		if(old.room == 56 && current.room == 6 && settings["Bifrost"]){
+		if(old.room == 4 && current.room != 4 && settings["Hedgeshock"]){
+			//Hedgeshock
+			return true;
+		}
+		if(old.room == 56 && current.room != 56 && settings["Bifrost"]){
 			// Bifrost
 			return true;
 		}
-		if(old.room == 56 && current.room == 58 && settings["PandP"]){
+		if(old.room == 60 && current.room != 60 && settings["PandP"]){
 			// Prometheus and Pandora
 			return true;
 		}
-		if(old.room == 61 && current.room == 10 && settings["PandP"]){
-			// Prometheus and Pandora
+		if(old.room == 63 && current.room == 64 && settings["BossRush"]){
+			// Boss Rush
 			return true;
 		}
-		if(old.room == 63 && current.room == 64 && settings["PandP"]){
-			// Prometheus and Pandora
+		if(old.room == 64 && current.room == 65 && settings["Albert"]){
+			// Albert
 			return true;
 		}
 	}
