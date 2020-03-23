@@ -25,16 +25,20 @@ state("MZZXLC"){
 
 startup{
 	refreshRate = 60;
-	settings.Add("everyRoom", true, "Every Room");
+	settings.Add("everyRoom", false, "Every Room");
 	settings.SetToolTip("everyRoom", "Split when the game changes room ID. This will override every other option.");
 	settings.Add("Intro", true, "Intro");
 	settings.SetToolTip("Intro", "Split after intro stage.");
 	settings.Add("Buckfire", true, "Buckfire");
 	settings.SetToolTip("Buckfire", "Split after Buckfire stage.");
-	settings.Add("RoseForce", true, "Rosepark and Chronoforce");
-	settings.SetToolTip("RoseForce", "Split after Rosepark and Chronoforce stages, 2 splits.");
+	settings.Add("Chronoforce", true, "Chronoforce");
+	settings.SetToolTip("Chronoforce", "Split when you leave Ice Floe Transerver room.");
+	settings.Add("Rosepark", true, "Rosepark");
+	settings.SetToolTip("Rosepark", "Split when you leave Tower of Verdure Transerver room.");
 	settings.Add("Atlas", true, "Atlas");
 	settings.SetToolTip("Atlas", "Split when you leave the Raiders Base.");
+	settings.Add("Sianarq", true, "Sianarq");
+	settings.SetToolTip("Sianarq", "Split when you leave the Trinity Sage transerver room.");
 	settings.Add("Aelous", true, "Aelous");
 	settings.SetToolTip("Aelous", "Split when you leave Aelous stage.");
 	settings.Add("Thetis", true, "Thetis");
@@ -56,7 +60,7 @@ startup{
 }
  
 start{
-	if(current.IGT != old.IGT && (current.room == 5 || current.room == 1)){
+	if(current.IGT != old.IGT && (current.room == 5 || current.room == 1)){ //could try starting only when IGT == 0
 		return true ;
 	}
 }
@@ -75,34 +79,25 @@ split{
 			//Buckfire
 			return true;
 		}
-		if(old.room == 18 || old.room == 17 && settings["RoseForce"]){
-			//Rosepark > Chronoforce
-			if(current.room == 14 || current.room == 22){
-				return true;
-			}
+		if(old.room == 17 && (current.room == 22 || current.room == 14) && settings["Chronoforce"]){
+			//Chronoforce
+			return true;
+		}
+		if(old.room == 18 && (current.room == 22 || current.room == 14) && settings["Rosepark"]){
+			//Rosepark
+			return true;
 		}
 		if(old.room == 24 && current.room == 6 && settings["Atlas"]){
 			// Atlas
 			return true;
 		}
-		if(old.room == 28 || old.room == 41 || old.room == 37 || old.room == 45 || old.room == 33){
+		if(old.room == 28 && current.room != 28 && settings["Sianarq"]){
 			//Sianarq
-			if(current.room == 38 && old.room != 41 && settings["Aelous"]){
-				// Aelous
-				return true;
-			}
-			if(current.room == 34 && old.room != 37 && settings["Thetis"]){
-				// Thetis
-				return true;
-			}
-			if(current.room == 42 && old.room != 45 && settings["Vulturon"]){
-				// Vulturon
-				return true;
-			}
-			if(current.room == 30 && old.room != 33 && settings["Queenbee"]){
-				// Queenbee
-				return true;
-			}
+			return true;
+		}
+		if(old.room == 37 && current.room != 37 && settings["Thetis"]){
+			//Thetis
+			return true;
 		}
 		if(old.room == 41 || old.room == 37 || old.room == 45 || old.room == 33){
 			if(current.room == 10 && settings["BAV"]){
