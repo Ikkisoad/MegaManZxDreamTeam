@@ -64,7 +64,7 @@ startup{
 }
  
 start{
-	if(current.IGT != old.IGT &&(current.room == 5 || current.room == 1)){ //could try starting only when IGT == 0
+	if(current.IGT != old.IGT &&(current.room == 5 || current.room == 1)){
 		return true ;
 	}
 }
@@ -143,8 +143,7 @@ split{
 			// Albert
 			return true;
 		}
-	}
-	if(old.room != current.room && settings["everyRoom"]){
+	}else if(old.room != current.room){
 		return true;
 	}
 }
