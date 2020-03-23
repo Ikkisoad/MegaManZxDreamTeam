@@ -95,8 +95,20 @@ split{
 			//Sianarq
 			return true;
 		}
+		if(old.room == 41 && current.room != 41 && settings["Aelous"]){
+			//Aelous
+			return true;
+		}
 		if(old.room == 37 && current.room != 37 && settings["Thetis"]){
 			//Thetis
+			return true;
+		}
+		if(old.room == 45 && current.room != 45 && settings["Vulturon"]){
+			//Vulturon
+			return true;
+		}
+		if(old.room == 33 && current.room != 33 && settings["Queenbee"]){
+			//Queenbee
 			return true;
 		}
 		if(old.room == 41 || old.room == 37 || old.room == 45 || old.room == 33){
