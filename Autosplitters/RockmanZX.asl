@@ -27,12 +27,50 @@ state("MZZXLC"){
 
 startup{
 	refreshRate = 60;
-	settings.Add("everyRoom", true, "Every Room");
+	settings.Add("everyRoom", false, "Every Room");
 	settings.SetToolTip("everyRoom", "Splits when the game changes room ID. This will override every other option.");
-	settings.Add("everyTranserver", false, "Every Transerver");
-	settings.SetToolTip("everyTranserver", "Split when you enter a transerver room.");
-	settings.Add("BossRush", false, "Boss Rush");
-	settings.SetToolTip("BossRush", "Splits when you exit Purprill and Protectos boss rush room.");
+	settings.Add("Intro", true, "Intro");
+	settings.SetToolTip("Intro", "Split when you enter the first transerver room.");
+	settings.Add("E", true, "Area-E");
+	settings.SetToolTip("E", "Split when you enter Area-E.");
+	settings.Add("Hivolt", true, "Hivolt");
+	settings.SetToolTip("Hivolt", "Split when you enter the transerver room after Hivolt fight.");
+	settings.Add("G", true, "Area-G");
+	settings.SetToolTip("G", "Split when you enter Area-G.");
+	settings.Add("Fistleo", true, "Fistleo");
+	settings.SetToolTip("Fistleo", "Split when you enter the transerver room after Fistleo fight.");
+	settings.Add("F", true, "Area-F");
+	settings.SetToolTip("F", "Split when you enter Area-F.");
+	settings.Add("Lurere", true, "Lurere");
+	settings.SetToolTip("Lurere", "Split when you enter the transerver room after Lurere fight.");
+	settings.Add("I", true, "Area-I");
+	settings.SetToolTip("I", "Split when you enter Area-I.");
+	settings.Add("Hurricaune", true, "Hurricaune");
+	settings.SetToolTip("Hurricaune", "Split when you enter the transerver room after Saving the people.");
+	settings.Add("K", true, "Area-K");
+	settings.SetToolTip("K", "Split when you enter Area-K.");
+	settings.Add("Flamolle", true, "Flamolle");
+	settings.SetToolTip("Flamolle", "Split when you enter the transerver room after defeating Flamolle.");
+	settings.Add("J", true, "Area-J");
+	settings.SetToolTip("J", "Split when you enter Area-J.");
+	settings.Add("Leganchor", true, "Leganchor");
+	settings.SetToolTip("Leganchor", "Split when you leave Area-J.");
+	settings.Add("H", true, "Area-H");
+	settings.SetToolTip("H", "Split when you enter Area-H.");
+	settings.Add("Purprill", true, "Purprill");
+	settings.SetToolTip("Purprill", "Split when you enter the transerver room after defeating Purprill.");
+	settings.Add("HL", true, "Area-L");
+	settings.SetToolTip("HL", "Split when you enter Area-L.");
+	settings.Add("Protectos", true, "Protectos");
+	settings.SetToolTip("Protectos", "Split when you enter the transerver room after defeating Protectos.");
+	settings.Add("Pandora", true, "Pandora");
+	settings.SetToolTip("Pandora", "Split when you enter the transerver room after Pandora fight.");
+	settings.Add("O", true, "Area-O");
+	settings.SetToolTip("O", "Split when you enter Area-O.");
+	settings.Add("PandP", true, "Prometheus and Pandora");
+	settings.SetToolTip("PandP", "Split when you arrive at Guardian's HQ after Prometheus and Pandora fight.");
+	settings.Add("BossRush", true, "Boss Rush");
+	settings.SetToolTip("BossRush", "Split when you leave Purprill and Protectos refight room.");
 }
  
 start{
@@ -42,14 +80,98 @@ start{
 }
  
 split{
-	if(old.room != 66 && old.room != 16 && old.room != 70 && current.room == 70 && !settings["everyRoom"] && settings["everyTranserver"]){
+	if(!settings["everyRoom"]){
+		if(old.room == 2 && current.room == 70 && settings["Intro"]){
+			//Intro
+			return true;
+		}
+		if(old.room == 10 && current.room == 20 && settings["E"]){
+			//Area-E
+			return true;
+		}
+		if(old.room == 26 && current.room == 70 && settings["Hivolt"]){
+			//Hivolt
+			return true;
+		}
+		if(old.room == 17 && current.room == 33 && settings["G"]){
+			//Area-G
+			return true;
+		}
+		if(old.room == 37 && current.room == 70 && settings["Fistleo"]){
+			//Fistleo
+			return true;
+		}
+		if(old.room == 7 && current.room == 28 && settings["F"]){
+			//Area-F
+			return true;
+		}
+		if(old.room == 32 && current.room == 70 && settings["Lurere"]){
+			//Lurere
+			return true;
+		}
+		if(old.room == 70 && current.room == 42 && settings["I"]){
+			//Area-I
+			return true;
+		}
+		if(old.room == 44 && current.room == 70 && settings["Hurricaune"]){
+			//Hurricaune
+			return true;
+		}
+		if(old.room == 11 && current.room == 52 && settings["K"]){
+			//Area-K
+			return true;
+		}
+		if(old.room == 55 && current.room == 70 && settings["Flamolle"]){
+			//Flamolle
+			return true;
+		}
+		if(old.room == 4 && current.room == 47 && settings["J"]){
+			//Area-J
+			return true;
+		}
+		if(old.room == 47 && current.room == 4 && settings["Leganchor"]){
+			//Leganchor
+			return true;
+		}
+		if(old.room == 3 && current.room == 38 && settings["H"]){
+			//Area-H
+			return true;
+		}
+		if(old.room == 41 && current.room == 70 && settings["Purprill"]){
+			//Purprill
+			return true;
+		}
+		if(old.room == 39 && current.room == 57 && settings["HL"]){
+			//HL
+			return true;
+		}
+		if(old.room == 60 && current.room == 70 && settings["Protectos"]){
+			//Protectos
+			return true;
+		}
+		if(old.room == 63 && current.room == 70 && settings["Pandora"]){
+			//Pandora
+			return true;
+		}
+		if(old.room == 17 && current.room == 65 && settings["O"]){
+			//Area-O
+			return true;
+		}
+		if(old.room == 66 && current.room == 68 && settings["PandP"]){
+			//Pandora and Prometheus
+			return true;
+		}
+		if(old.room == 18 && current.room == 19 && settings["BossRush"]){
+			//Boss Rush
+			return true;
+		}
+	}else if(old.room != current.room){
 		return true;
 	}
-	if(old.room == 18 && current.room == 19 && !settings["everyRoom"] && settings["BossRush"]){
-		return true;
-	}
-	
-	if(old.room != current.room && settings["everyRoom"]){
+}
+
+reset{
+	if(current.room == 72){
 		return true;
 	}
 }
