@@ -31,6 +31,12 @@ startup{
 	settings.SetToolTip("everyRoom", "Splits when the game changes room ID. This will override every other option.");
 	settings.Add("Intro", true, "Intro");
 	settings.SetToolTip("Intro", "Split when you enter the first transerver room.");
+	settings.Add("Boring", true, "Boring Mission");
+	settings.SetToolTip("Boring", "Split when you enter the transerver room after getting the Stuffed Animal.");
+	settings.Add("LocateGiro", true, "Locate Giro");
+	settings.SetToolTip("LocateGiro", "Split when you enter the transerver room after destroying RayFly.");
+	settings.Add("Giro", true, "Giro");
+	settings.SetToolTip("Giro", "Split when you arrive at the Guardian's HQ after defeating Giro.");
 	settings.Add("E", true, "Area-E");
 	settings.SetToolTip("E", "Split when you enter Area-E.");
 	settings.Add("Hivolt", true, "Hivolt");
@@ -47,6 +53,8 @@ startup{
 	settings.SetToolTip("I", "Split when you enter Area-I.");
 	settings.Add("Hurricaune", true, "Hurricaune");
 	settings.SetToolTip("Hurricaune", "Split when you enter the transerver room after Saving the people.");
+	settings.Add("Prometheus", true, "Prometheus");
+	settings.SetToolTip("Prometheus", "Split when you arrive at Prairie's control room after defeating Prometheus.");
 	settings.Add("K", true, "Area-K");
 	settings.SetToolTip("K", "Split when you enter Area-K.");
 	settings.Add("Flamolle", true, "Flamolle");
@@ -63,6 +71,8 @@ startup{
 	settings.SetToolTip("HL", "Split when you enter Area-L.");
 	settings.Add("Protectos", true, "Protectos");
 	settings.SetToolTip("Protectos", "Split when you enter the transerver room after defeating Protectos.");
+	settings.Add("M", true, "Area-M");
+	settings.SetToolTip("M", "Split when you enter Area-M.");
 	settings.Add("Pandora", true, "Pandora");
 	settings.SetToolTip("Pandora", "Split when you enter the transerver room after Pandora fight.");
 	settings.Add("O", true, "Area-O");
@@ -83,6 +93,18 @@ split{
 	if(!settings["everyRoom"]){
 		if(old.room == 2 && current.room == 70 && settings["Intro"]){
 			//Intro
+			return true;
+		}
+		if(old.room == 10 && current.room == 70 && settings["Boring"]){
+			//Boring Mission
+			return true;
+		}
+		if(old.room == 6 && current.room == 70 && settings["LocateGiro"]){
+			//Locate Giro Mission
+			return true;
+		}
+		if(old.room == 16 && current.room == 68 && settings["Giro"]){
+			//Giro Fight
 			return true;
 		}
 		if(old.room == 10 && current.room == 20 && settings["E"]){
@@ -117,6 +139,10 @@ split{
 			//Hurricaune
 			return true;
 		}
+		if(old.room == 69 && current.room == 68 && settings["Prometheus"]){
+			//Prometheus
+			return true;
+		}
 		if(old.room == 11 && current.room == 52 && settings["K"]){
 			//Area-K
 			return true;
@@ -149,6 +175,10 @@ split{
 			//Protectos
 			return true;
 		}
+		if(old.room == 4 && current.room == 61 && settings["M"]){
+			//Area-M
+			return true;
+		}
 		if(old.room == 63 && current.room == 70 && settings["Pandora"]){
 			//Pandora
 			return true;
@@ -166,12 +196,6 @@ split{
 			return true;
 		}
 	}else if(old.room != current.room){
-		return true;
-	}
-}
-
-reset{
-	if(current.room == 72){
 		return true;
 	}
 }
