@@ -1,0 +1,54 @@
+count = 0
+hxcap = 32
+fxcap = 32
+lxcap = 32
+pxcap = 32
+while true do
+	--record WE cap for each model since we can only see equipped's cap
+	if memory.readbyte(0x0214F874) == 3 then
+		hxcap = memory.readbyte(0x0214FE75)*4;
+	elseif memory.readbyte(0x0214F874) == 4 then
+		fxcap = memory.readbyte(0x0214FE75)*4;
+	elseif memory.readbyte(0x0214F874) == 5 then
+		lxcap = memory.readbyte(0x0214FE75)*4;
+	elseif memory.readbyte(0x0214F874) == 6 then
+		pxcap = memory.readbyte(0x0214FE75)*4;
+	end
+	
+	if memory.readbyte(0x0214F895) < 32 and memory.readbyte(0x0214F896) < 32 and memory.readbyte(0x0214F897) < 32 and memory.readbyte(0x0214F897) < 32 then --if any of HX, FX, LX, or PX has less than 32 (so count isnt always going)
+		if count < 180 then --number of frames til energy point
+			count = count + 1
+		else --if each model's WE less than assumed cap and not currently equipped, add WE point
+			if memory.readbyte(0x0214F895) < hxcap and (0x0214F874) ~= 3 then --HX
+				memory.writebyte(0x0214F895, memory.readbyte(0x0214F895) + 1)
+			end
+			if memory.readbyte(0x0214F896) < fxcap and (0x0214F874) ~= 4 then --FX
+				memory.writebyte(0x0214F896, memory.readbyte(0x0214F896) + 1)
+			end
+			if memory.readbyte(0x0214F897) < lxcap and (0x0214F874) ~= 5 then --LX
+				memory.writebyte(0x0214F897, memory.readbyte(0x0214F897) + 1)
+			end
+			if memory.readbyte(0x0214F898) < pxcap and (0x0214F874) ~= 6 then --PX
+				memory.writebyte(0x0214F898, memory.readbyte(0x0214F898) + 1)
+			end
+			count = 0
+		end
+	end
+	
+	--if equipped model's WE is higher than its cap, reduce to cap
+	if memory.readbyte(0x0214FE71) > memory.readbyte(0x0214FE75)*4 then
+		if memory.readbyte(0x0214F874) == 3 then --if HX
+			memory.writebyte(0x0214F895, memory.readbyte(0x0214FE75)*4)
+		end
+		if memory.readbyte(0x0214F874) == 4 then --if FX
+			memory.writebyte(0x0214F896, memory.readbyte(0x0214FE75)*4)
+		end
+		if memory.readbyte(0x0214F874) == 5 then --if LX
+			memory.writebyte(0x0214F897, memory.readbyte(0x0214FE75)*4)
+		end
+		if memory.readbyte(0x0214F874) == 6 then --if PX
+			memory.writebyte(0x0214F898, memory.readbyte(0x0214FE75)*4)
+		end
+    end
+    emu.frameadvance()
+end
