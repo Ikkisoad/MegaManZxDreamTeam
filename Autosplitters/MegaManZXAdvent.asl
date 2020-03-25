@@ -9,14 +9,12 @@
 state("DeSmuME_0.9.11_x64")
 {
     uint IGT : "DeSmuME_0.9.11_x64.exe", 0x558A150;
-	byte bossHP : "DeSmuME_0.9.11_x64.exe", 0x216A3A2;
 	byte room : "DeSmuME_0.9.11_x64.exe", 0x551CCB0;
 }
 
 state("DeSmuME_0.9.11_x86")
 {
     uint IGT : "DeSmuME_0.9.11_x86.exe", 0x3019DB8;
-	byte bossHP : "DeSmuME_0.9.11_x86.exe", 0x300B25A;
 	byte room : "DeSmuME_0.9.11_x86.exe", 0x2FAC918;
 }
 
