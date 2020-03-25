@@ -70,7 +70,7 @@ while true do
 	--gui.text(25,50,memory.readbyte(0x0214FDe4))
 	--gui.text(25,150,memory.readbyte(0x0214F874))
 	--gui.text(40,50,giro)
-	gui.text(10,20,curentModel)
+	gui.text(10,20,currentModel)
 	--gui.text(100,100,cArea)
 	if(memory.readbyte(0x0214FDe4) ~= 5)then
 		memory.writebyte(0x0214F86C, 5) --Infinity lives
@@ -82,7 +82,7 @@ while true do
 		memory.writebyte(0x0214F874, model)
 	end
 	if (model == 1) then --X
-		curentModel = "X"
+		currentModel = "X"
 		memory.writebyte(0x021041CF, 128)
 		memory.writebyte(0x021041D0, 000)
 		memory.writebyte(0x021041D1, 000)
@@ -96,7 +96,7 @@ while true do
 			end
 		end
 	elseif (model == 2) then --Zx
-		curentModel = "Zx"
+		currentModel = "Zx"
 		memory.writebyte(0x021041CF, 000)
 		memory.writebyte(0x021041D0, 001)
 		memory.writebyte(0x021041D1, 000)
@@ -107,7 +107,7 @@ while true do
 			end
 		end
 	elseif (model == 3) then --Hx
-		curentModel = "Hx"
+		currentModel = "Hx"
 		memory.writebyte(0x021041CF, 000)
 		memory.writebyte(0x021041D0, 002)
 		memory.writebyte(0x021041D1, 002)
@@ -123,7 +123,7 @@ while true do
 			memory.writebyte(0x0214F82D, 65)
 		end
 	elseif (model == 4) then --Fx
-		curentModel = "Fx"
+		currentModel = "Fx"
 		memory.writebyte(0x021041CF, 000)
 		memory.writebyte(0x021041D0, 032)
 		memory.writebyte(0x021041D1, 032)
@@ -143,7 +143,7 @@ while true do
 			memory.writebyte(0x0214F82D, 65)
 		end
 	elseif (model == 5) then --Lx
-		curentModel = "Lx"
+		currentModel = "Lx"
 		memory.writebyte(0x021041CF, 000)
 		memory.writebyte(0x021041D0, 008)
 		memory.writebyte(0x021041D1, 008)
@@ -159,7 +159,7 @@ while true do
 			memory.writebyte(0x0214F82D, 65)
 		end
 	elseif (model == 6) then --Px
-		curentModel = "Px"
+		currentModel = "Px"
 		memory.writebyte(0x021041CF, 000)
 		memory.writebyte(0x021041D0, 128)
 		memory.writebyte(0x021041D1, 128)
@@ -175,7 +175,7 @@ while true do
 			memory.writebyte(0x0214F82D, 65)
 		end
 	elseif (model == 7) then --Ox
-		curentModel = "Ox"
+		currentModel = "Ox"
 		memory.writebyte(0x021041CF, 000)
 		memory.writebyte(0x021041D0, 000)
 		memory.writebyte(0x021041D1, 000)
