@@ -35,7 +35,7 @@ update {
 				}
 				else {
 					//32-bit addresses
-					vars.watchers = vars.GetWatcherList(modules.First().BaseAddress, 0x3000D60, 0x2FF071C); 
+					vars.watchers = vars.GetWatcherList(modules.First().BaseAddress, 0x3000D60, 0x2FA8CE0); 
 				}
 			} else if(vars.ROM == "ARZE"){
 				//US Rom
