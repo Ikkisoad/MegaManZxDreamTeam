@@ -147,6 +147,10 @@ split{
 		return true;
 	}
 }
+
+isLoading {
+    return true;
+}
  
 gameTime{
     return TimeSpan.FromSeconds(current.IGT / 60.0); 

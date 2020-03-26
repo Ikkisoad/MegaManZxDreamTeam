@@ -11,7 +11,8 @@
 //Have fun and accurate timing c:
 
 state("DeSmuME_0.9.11_x64"){
-    uint IGT : "DeSmuME_0.9.11_x64.exe", 0x55710F8;
+	string4 ROM : "DeSmuME_0.9.11_x64.exe",0x5810CDC;
+	uint IGT : "DeSmuME_0.9.11_x64.exe", 0x55710F8;
 	byte room : "DeSmuME_0.9.11_x64.exe", 0x5560234;
 }
 
@@ -198,6 +199,10 @@ split{
 	}else if(old.room != current.room){
 		return true;
 	}
+}
+
+isLoading {
+    return true;
 }
  
 gameTime{
