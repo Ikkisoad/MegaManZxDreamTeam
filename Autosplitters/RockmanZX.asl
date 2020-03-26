@@ -22,11 +22,11 @@ update {
 		if (game.ProcessName == "DeSmuME_0.9.11_x86") { vars.ROM = game.ReadString((IntPtr)modules.First().BaseAddress + 0x32A0944, 4); }
 		
 		if (vars.ROM == string.Empty || vars.ROM == null){
-			print("--Yikes no good finding ROM");
+			//print("--Yikes no good finding ROM");
 			return; //stop since we have no ROM yet
 		} else if (vars.ROM != vars.lastROM) {
 			//ROM changed let's update our watchers!
-			print("--ROM Changed from: " + vars.lastROM + " to: " + vars.ROM);
+			//print("--ROM Changed from: " + vars.lastROM + " to: " + vars.ROM);
 			if (vars.ROM == "ARZJ"){
 				//JP Rom
 				if (game.ProcessName == "DeSmuME_0.9.11_x64") {
@@ -68,11 +68,11 @@ update {
 	
 	if (vars.watchers.Count == 0) {
 		//failsafe
-		print("--Oops! Not a ZX ROM?");
+		//print("--Oops! Not a ZX ROM?");
 		return;
 	}
 	vars.watchers.UpdateAll(game);
-	print("--Process: " + game.ProcessName + " | ROM: " + vars.ROM + " | IGT: " + vars.watchers["IGT"].Current + " | Room: " + vars.watchers["room"].Current);
+	//print("--Process: " + game.ProcessName + " | ROM: " + vars.ROM + " | IGT: " + vars.watchers["IGT"].Current + " | Room: " + vars.watchers["room"].Current);
 }
 
 init {
