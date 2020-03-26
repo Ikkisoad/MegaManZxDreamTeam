@@ -79,7 +79,6 @@ init {
 	vars.ROM = "";
 	vars.lastROM = "";
 	vars.watchers = new MemoryWatcherList();
-	
 }
 
 startup{
