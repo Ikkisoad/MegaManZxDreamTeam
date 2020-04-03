@@ -32,7 +32,7 @@ update {
 				}
 				else {
 					//32-bit addresses
-					vars.watchers = vars.GetWatcherList(modules.First().BaseAddress, 0x3018B2C, 0x3018B34); 
+					vars.watchers = vars.GetWatcherList(modules.First().BaseAddress, 0x3018B2C, 0x3018B34);
 				}
 			} else if(vars.ROM == "YZXE"){
 				//US Rom
@@ -111,11 +111,11 @@ startup{
 	settings.Add("Bifrost", true, "Bifrost");
 	settings.SetToolTip("Bifrost", "Split when you leave Bifrost stage.");
 	settings.Add("PandP", true, "Pandora and Prometheus");
-	settings.SetToolTip("PandP", "Split when you defeat Pandora and Prometheus.");
+	settings.SetToolTip("PandP", "Split when you arrive at the Hunter's Camp after defeating Pandora and Prometheus.");
 	settings.Add("BossRush", true, "Boss Rush");
 	settings.SetToolTip("BossRush", "Split when you leave the second boss rush room.");
 	settings.Add("Albert", true, "Albert");
-	settings.SetToolTip("Albert", "Split when you defeat Albert.");
+	settings.SetToolTip("Albert", "Split when arrive at the Hunter's Camp after defeating Albert.");
 	
 	vars.GetWatcherList = (Func<IntPtr, int, int, MemoryWatcherList>)((baseAddress, igtAddress, roomAddress) =>
 	{   
@@ -203,7 +203,7 @@ split{
 			// Bifrost
 			return true;
 		}
-		if(vars.watchers["room"].Old == 60 && vars.watchers["room"].Current != 60 && settings["PandP"]){
+		if(vars.watchers["room"].Old == 61 && vars.watchers["room"].Current == 10 && settings["PandP"]){
 			// Prometheus and Pandora
 			return true;
 		}
@@ -211,7 +211,7 @@ split{
 			// Boss Rush
 			return true;
 		}
-		if(vars.watchers["room"].Old == 64 && vars.watchers["room"].Current == 65 && settings["Albert"]){
+		if(vars.watchers["room"].Old == 64 && vars.watchers["room"].Current == 10 && settings["Albert"]){
 			// Albert
 			return true;
 		}
