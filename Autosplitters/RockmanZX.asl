@@ -63,7 +63,7 @@ update {
 		//ZXLC
 		vars.ROM = "ZXLC";
 		if (vars.watchers.Count == 0)
-			vars.watchers = vars.GetWatcherList(modules.First().BaseAddress, 0x28B4360, 0x293349C); 
+			vars.watchers = vars.GetWatcherList(modules.First().BaseAddress, 0x28B5C50, 0x292C740); 
 	}
 	
 	if (vars.watchers.Count == 0) {
