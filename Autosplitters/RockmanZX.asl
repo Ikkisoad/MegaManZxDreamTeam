@@ -12,14 +12,16 @@
 
 state("DeSmuME_0.9.11_x64"){}
 state("DeSmuME_0.9.11_x86"){}
+state("DeSmuME_0.9.13_x64"){}
 state("MZZXLC"){}
 
 update {
 
-	if (game.ProcessName == "DeSmuME_0.9.11_x64" || game.ProcessName == "DeSmuME_0.9.11_x86") {
+	if (game.ProcessName == "DeSmuME_0.9.11_x64" || game.ProcessName == "DeSmuME_0.9.11_x86" || game.ProcessName == "DeSmuME_0.9.13_x64") {
 		vars.lastROM = vars.ROM;
 		if (game.ProcessName == "DeSmuME_0.9.11_x64") { vars.ROM = game.ReadString((IntPtr)modules.First().BaseAddress + 0x5810CDC, 4); }
 		if (game.ProcessName == "DeSmuME_0.9.11_x86") { vars.ROM = game.ReadString((IntPtr)modules.First().BaseAddress + 0x32A0944, 4); }
+		if (game.ProcessName == "DeSmuME_0.9.13_x64") { vars.ROM = game.ReadString((IntPtr)modules.First().BaseAddress + 0x25E5938, 8); }
 		
 		if (vars.ROM == string.Empty || vars.ROM == null){
 			//print("--Yikes no good finding ROM");
@@ -27,13 +29,14 @@ update {
 		} else if (vars.ROM != vars.lastROM) {
 			//ROM changed let's update our watchers!
 			//print("--ROM Changed from: " + vars.lastROM + " to: " + vars.ROM);
-			if (vars.ROM == "ARZJ"){
+			if (vars.ROM == "ARZJ" || vars.ROM == "NTR-ARZJ" ){
 				//JP Rom
 				if (game.ProcessName == "DeSmuME_0.9.11_x64") {
 					//64-bit addresses - IGT then Room
 					vars.watchers = vars.GetWatcherList(modules.First().BaseAddress, 0x55710F8, 0x5560234); 
-				}
-				else {
+				} else if (game.ProcessName == "DeSmuME_0.9.13_x64"){
+					vars.watchers = vars.GetWatcherList(modules.First().BaseAddress, 0xAA752A8, 0xAA1D228);
+				} else {
 					//32-bit addresses
 					vars.watchers = vars.GetWatcherList(modules.First().BaseAddress, 0x3000D60, 0x2FA8CE0); 
 				}

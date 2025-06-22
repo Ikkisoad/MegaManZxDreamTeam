@@ -9,28 +9,30 @@
 
 state("DeSmuME_0.9.11_x64"){}
 state("DeSmuME_0.9.11_x86"){}
+state("DeSmuME_0.9.13_x64"){}
 state("MZZXLC"){}
 
 update {
 
-	if (game.ProcessName == "DeSmuME_0.9.11_x64" || game.ProcessName == "DeSmuME_0.9.11_x86") {
+	if (game.ProcessName == "DeSmuME_0.9.11_x64" || game.ProcessName == "DeSmuME_0.9.11_x86" || game.ProcessName == "DeSmuME_0.9.13_x64") {
 		vars.lastROM = vars.ROM;
 		if (game.ProcessName == "DeSmuME_0.9.11_x64") { vars.ROM = game.ReadString((IntPtr)modules.First().BaseAddress + 0x5810CDC, 4); }
 		if (game.ProcessName == "DeSmuME_0.9.11_x86") { vars.ROM = game.ReadString((IntPtr)modules.First().BaseAddress + 0x32A0944, 4); }
-		
+		if (game.ProcessName == "DeSmuME_0.9.13_x64") { vars.ROM = game.ReadString((IntPtr)modules.First().BaseAddress + 0x25E5938, 8); }
 		if (vars.ROM == string.Empty || vars.ROM == null){
 			//print("--Yikes no good finding ROM");
 			return; //stop since we have no ROM yet
 		} else if (vars.ROM != vars.lastROM) {
 			//ROM changed let's update our watchers!
 			//print("--ROM Changed from: " + vars.lastROM + " to: " + vars.ROM);
-			if (vars.ROM == "YZXJ"){
+			if (vars.ROM == "YZXJ" || vars.ROM == "NTR-YZXJ" ){
 				//JP Rom
 				if (game.ProcessName == "DeSmuME_0.9.11_x64") {
 					//64-bit addresses - IGT then Room
 					vars.watchers = vars.GetWatcherList(modules.First().BaseAddress, 0x5588EC4, 0x558D404); 
-				}
-				else {
+				} else if (game.ProcessName == "DeSmuME_0.9.13_x64"){
+					vars.watchers = vars.GetWatcherList(modules.First().BaseAddress, 0xAA8D074, 0xAA3971C);
+				} else {
 					//32-bit addresses
 					vars.watchers = vars.GetWatcherList(modules.First().BaseAddress, 0x3018B2C, 0x3018B34);
 				}
@@ -119,7 +121,7 @@ startup{
 	
 	vars.GetWatcherList = (Func<IntPtr, int, int, MemoryWatcherList>)((baseAddress, igtAddress, roomAddress) =>
 	{   
-		print("--BaseAddress: 0x" + baseAddress.ToString("X") + " | IGT address: 0x" + igtAddress.ToString("X") + " | room address: 0x" + roomAddress.ToString("X"));
+		//print("--BaseAddress: 0x" + baseAddress.ToString("X") + " | IGT address: 0x" + igtAddress.ToString("X") + " | room address: 0x" + roomAddress.ToString("X"));
 		return new MemoryWatcherList
 		{
 			new MemoryWatcher<uint>(baseAddress + igtAddress) { Name = "IGT" }, //IGT frame counter
@@ -129,6 +131,10 @@ startup{
 }
  
 start{
+	if (vars.watchers.Count == 0) {
+		//failsafe
+		return false;
+	}
 	if(vars.watchers["IGT"].Current != vars.watchers["IGT"].Old &&(vars.watchers["room"].Current == 5)){ //Grey room is the same as main menu room number, so just Ashe automatic start for now.
 		return true ;
 	}
